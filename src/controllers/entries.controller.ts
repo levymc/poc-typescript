@@ -2,7 +2,7 @@
 import logger from '../config/logger.ts';
 import { type Request, type Response, type NextFunction } from 'express';
 
-export default class UsersController {
+export default class EntriesController {
     async handlePost(
         req: Request,
         res: Response,
