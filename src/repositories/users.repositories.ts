@@ -1,65 +1,65 @@
+/* eslint-disable @typescript-eslint/no-throw-literal */
 import { PrismaClient } from '@prisma/client';
+import AppError from '../errors/AppError';
 
-class UsersRepository {
-  private prisma: PrismaClient;
+export default class UsersRepository {
+  private readonly prisma: PrismaClient
 
-  constructor() {
-    this.prisma = new PrismaClient();
+  constructor () {
+    this.prisma = new PrismaClient()
   }
 
-  async create(name: string, email: string): Promise<void> {
+  async create (name: string, email: string): Promise<void> {
     try {
       await this.prisma.users.create({
         data: {
           name,
-          email,
-        },
-      });
-    } catch (error) {
-      throw new Error(`Error creating user: ${error}`);
+          email
+        }
+      })
+    } catch (error: unknown) {
+      throw new AppError(error, 'Error creating user', 500)
     }
   }
 
-  async getUserById(id: number): Promise<any> {
+  async getUserById (id: number): Promise<any> {
     try {
       const user = await this.prisma.users.findUnique({
         where: {
-          id,
-        },
-      });
-      return user;
+          id
+        }
+      })
+      return user
     } catch (error) {
-      throw new Error(`Error retrieving user: ${error}`);
+      throw new AppError(error, 'Error retrieving user', 500)
     }
   }
 
-  async update(id: number, name: string, email: string): Promise<void> {
+  async update (id: number, name: string, email: string): Promise<void> {
     try {
       await this.prisma.users.update({
         where: {
-          id,
+          id
         },
         data: {
           name,
-          email,
-        },
-      });
+          email
+        }
+      })
     } catch (error) {
-      throw new Error(`Error updating user: ${error}`);
+      throw new AppError(error, 'Error updating user', 500)
     }
   }
 
-  async delete(id: number): Promise<void> {
+  async delete (id: number): Promise<void> {
     try {
       await this.prisma.users.delete({
         where: {
-          id,
-        },
-      });
+          id
+        }
+      })
     } catch (error) {
-      throw new Error(`Error deleting user: ${error}`);
+      throw new AppError(error, 'Error deleting user', 500)
     }
   }
 }
-
-export default UsersRepository;
