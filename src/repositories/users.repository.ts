@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
-import { PrismaClient } from '@prisma/client';
-import AppError from '../errors/AppError';
+import { PrismaClient } from '@prisma/client'
+import AppError from '../errors/AppError'
 
 export default class UsersRepository {
   private readonly prisma: PrismaClient
