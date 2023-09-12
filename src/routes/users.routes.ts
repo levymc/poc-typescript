@@ -7,6 +7,6 @@ const controller = new UsersController()
 const usersRouter = Router()
 
 usersRouter.post('/users', validateSchema(userSchema), controller.handlePost)
-usersRouter.get('/users')
+usersRouter.get('/users', controller.handleGet)
 
 export default usersRouter

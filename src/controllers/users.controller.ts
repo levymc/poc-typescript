@@ -25,6 +25,13 @@ export default class UsersController {
         next: NextFunction,
     ){
         const service = new UsersService()
-
+        logger.info('UsersController.handleGet START');
+        try {
+            const usersList = await service.handleGetUsers();
+            logger.info('UsersController.handleGet END');
+            res.status(201).json(usersList);
+        } catch (err) {
+            next(err);
+        }
     }
 }
