@@ -26,6 +26,19 @@ export default class UsersRepository {
         }
     }
 
+    async getUsers(): Promise<{
+        id: number;
+        name: string;
+        email: string;
+    }[]> {
+        try {
+            const usersList = await this.prisma.users.findMany()
+            return usersList;
+        } catch (error) {
+            throw new AppError(error, 'Error retrieving user', 500);
+        }
+    }
+
     async getUserById(id: number): Promise<any> {
         try {
             const user = await this.prisma.users.findUnique({
