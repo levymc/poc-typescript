@@ -9,14 +9,15 @@ export default class UsersRepository {
         this.prisma = new PrismaClient();
     }
 
-    async create(name: string, email: string): Promise<void> {
+    async create(name: string, email: string): Promise<object> {
         try {
-            await this.prisma.users.create({
+            const response = await this.prisma.users.create({
                 data: {
                     name,
                     email,
                 },
             });
+            return response
         } catch (error: unknown) {
             throw new AppError(error, 'Error creating user', 500);
         }
