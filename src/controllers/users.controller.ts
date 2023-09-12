@@ -10,6 +10,7 @@ export default class UsersController {
     ): Promise<void> {
         logger.info('UsersController.handlePost START');
         try {
+            console.log(req.body)
             // Coloque o código desejado aqui
             logger.info('UsersController.handlePost END');
         } catch (err) {
