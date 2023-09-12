@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import { PrismaClient } from '@prisma/client';
 import AppError from '../errors/AppError';
+import httpStatus from 'http-status'
 
 export default class UsersRepository {
     private readonly prisma: PrismaClient;
@@ -18,7 +19,9 @@ export default class UsersRepository {
                 },
             });
             return response
-        } catch (error: unknown) {
+        } catch (error: any) {
+            if (error.code === "P2002") throw new AppError(`O valor de '${error.meta.target}' não pode ser repetido`, error.name, httpStatus.BAD_REQUEST);
+            
             throw new AppError(error, 'Error creating user', 500);
         }
     }
