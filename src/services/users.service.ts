@@ -19,10 +19,10 @@ export default class UsersService {
         return responseDB;
     }
 
-    async handlePutUserByName() {
+    async handlePutUserByName(search: string, name: string, email: string) {
         const usersRepository = new UsersRepository()
         logger.info({msg: 'UsersService.handlePutUser START'});
-        const responseDB = await usersRepository.getUsers();
+        const responseDB = await usersRepository.updateUserByName(search, name, email);
         logger.info({msg: 'UsersService.handlePutUser END', responseDB});
         return responseDB;
     }

@@ -52,7 +52,7 @@ export default class UsersRepository {
         }
     }
 
-    async updateUserByName(searchName: string, newName: string, newEmail: string): Promise<void> {
+    async updateUserByName(searchName: string, newName: string, newEmail: string) {
         try {
             const user = await this.prisma.users.findFirstOrThrow({
                 where: {
@@ -62,7 +62,7 @@ export default class UsersRepository {
                 },
             });
     
-            await this.prisma.users.update({
+            const responseDB = await this.prisma.users.update({
                 where: {
                     id: user.id,
                 },
@@ -71,8 +71,11 @@ export default class UsersRepository {
                     email: newEmail,
                 },
             });
-        } catch (error) {
-            throw new AppError(error, 'Error updating user by name', 500);
+            return responseDB
+        } catch (error: any) {
+            if (error.code === "P2002") throw new AppError(`O valor de '${error.meta.target}' não pode ser repetido`, error.name, httpStatus.BAD_REQUEST);
+            
+            throw new AppError(error, 'Error creating user', 500);
         }
     }
     

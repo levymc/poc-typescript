@@ -42,11 +42,12 @@ export default class UsersController {
         next: NextFunction,
     ){
         const service = new UsersService()
-        logger.info('UsersController.handlePut START');
+        logger.info('UsersController.handlePutByName START');
         try {
-            if (!req.params.search) throw new AppError('Nenhum nome foi passado para att', 'ErrorName', 404 )
-            const updatedUser = await service.handlePutUserByName();
-            logger.info('UsersController.handlePut END');
+            if (!req.query.search) throw new AppError('Nenhum nome foi passado para att', 'ErrorName', 404 )
+            if (String(req.query.search).length < 3) throw new AppError('O nome passado deve possuir 3 ou mais caracteres', 'ErrorName', 404 )
+            const updatedUser = await service.handlePutUserByName(req.params.search, req.body.name, req.body.email);
+            logger.info('UsersController.handlePutByName END');
             res.status(201).json(updatedUser);
         } catch (err) {
             next(err);
