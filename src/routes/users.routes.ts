@@ -8,5 +8,6 @@ const usersRouter = Router()
 
 usersRouter.post('/users', validateSchema(userSchema), controller.handlePost)
 usersRouter.get('/users', controller.handleGet)
+usersRouter.put('/users', controller.handlePutByName)
 
 export default usersRouter

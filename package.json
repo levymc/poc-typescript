@@ -6,6 +6,7 @@
     "scripts": {
         "format": "prettier --write .",
         "dev": "ts-node-dev --respawn --transpile-only ./src/app.ts",
+        "devin": "ts-node-dev --respawn --transpile-only ./src/app.ts > ./logs/logs.json",
         "build": "tsc"
     },
     "keywords": [],

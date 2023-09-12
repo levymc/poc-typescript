@@ -1,6 +1,7 @@
 import logger from '../config/logger';
 import { Request, Response, NextFunction } from 'express';
 import UsersService from '../services/users.service';
+import AppError from '../errors/AppError';
 
 export default class UsersController {
     async handlePost(
@@ -30,6 +31,23 @@ export default class UsersController {
             const usersList = await service.handleGetUsers();
             logger.info('UsersController.handleGet END');
             res.status(201).json(usersList);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async handlePutByName(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ){
+        const service = new UsersService()
+        logger.info('UsersController.handlePut START');
+        try {
+            if (!req.params.search) throw new AppError('Nenhum nome foi passado para att', 'ErrorName', 404 )
+            const updatedUser = await service.handlePutUserByName();
+            logger.info('UsersController.handlePut END');
+            res.status(201).json(updatedUser);
         } catch (err) {
             next(err);
         }

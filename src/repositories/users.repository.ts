@@ -52,6 +52,31 @@ export default class UsersRepository {
         }
     }
 
+    async updateUserByName(searchName: string, newName: string, newEmail: string): Promise<void> {
+        try {
+            const user = await this.prisma.users.findFirstOrThrow({
+                where: {
+                    name: {
+                        contains: searchName,
+                    },
+                },
+            });
+    
+            await this.prisma.users.update({
+                where: {
+                    id: user.id,
+                },
+                data: {
+                    name: newName,
+                    email: newEmail,
+                },
+            });
+        } catch (error) {
+            throw new AppError(error, 'Error updating user by name', 500);
+        }
+    }
+    
+
     async update(id: number, name: string, email: string): Promise<void> {
         try {
             await this.prisma.users.update({
