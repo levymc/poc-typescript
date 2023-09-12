@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
 const userSchema = Joi.object({
-  nome: Joi.string()
+  name: Joi.string()
     .min(3)
-    .pattern(new RegExp("^[a-zA-Z]+$"))
+    .pattern(new RegExp("^[a-zA-Z ]+$"))
     .required(),
   email: Joi.string()
     .email()
