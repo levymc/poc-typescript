@@ -18,4 +18,12 @@ export default class UsersService {
         logger.info({msg: 'UsersService.handleGetUsers END', responseDB});
         return responseDB;
     }
+
+    async handlePutUserByName(search: string, name: string, email: string) {
+        const usersRepository = new UsersRepository()
+        logger.info({msg: 'UsersService.handlePutUser START'});
+        const responseDB = await usersRepository.updateUserByName(search, name, email);
+        logger.info({msg: 'UsersService.handlePutUser END', responseDB});
+        return responseDB;
+    }
 }

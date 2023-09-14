@@ -9,7 +9,12 @@
       "moduleResolution": "node",
       "declaration": true,
       "emitDeclarationOnly": true,
-      "allowImportingTsExtensions": true
+      "allowImportingTsExtensions": true,
+      "paths": {
+        "@/*": [
+          "./*"
+        ]
+      }
     },
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules"]

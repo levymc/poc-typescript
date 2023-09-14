@@ -10,7 +10,7 @@ export default class UsersRepository {
         this.prisma = new PrismaClient();
     }
 
-    async create(name: string, email: string): Promise<object> {
+    async create(name: string, email: string) {
         try {
             const response = await this.prisma.users.create({
                 data: {
@@ -39,7 +39,7 @@ export default class UsersRepository {
         }
     }
 
-    async getUserById(id: number): Promise<any> {
+    async getUserById(id: number) {
         try {
             const user = await this.prisma.users.findUnique({
                 where: {
@@ -51,6 +51,34 @@ export default class UsersRepository {
             throw new AppError(error, 'Error retrieving user', 500);
         }
     }
+
+    async updateUserByName(searchName: string, newName: string, newEmail: string) {
+        try {
+            const user = await this.prisma.users.findFirstOrThrow({
+                where: {
+                    name: {
+                        contains: searchName,
+                    },
+                },
+            });
+    
+            const responseDB = await this.prisma.users.update({
+                where: {
+                    id: user.id,
+                },
+                data: {
+                    name: newName,
+                    email: newEmail,
+                },
+            });
+            return responseDB
+        } catch (error: any) {
+            if (error.code === "P2002") throw new AppError(`O valor de '${error.meta.target}' não pode ser repetido`, error.name, httpStatus.BAD_REQUEST);
+            
+            throw new AppError(error, 'Error creating user', 500);
+        }
+    }
+    
 
     async update(id: number, name: string, email: string): Promise<void> {
         try {
