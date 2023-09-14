@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import * as Joi from 'joi'; // Certifique-se de que você tenha a biblioteca Joi instalada
+import * as Joi from 'joi';
 import AppError from '../errors/AppError';
 
 export function validateSchema(schema: Joi.ObjectSchema) {

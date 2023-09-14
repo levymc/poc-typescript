@@ -45,6 +45,7 @@
         "prettier": "^3.0.3",
         "ts-node": "^10.9.1",
         "tsc-watch": "^6.0.4",
+        "tsconfig-paths": "^4.2.0",
         "typescript": "^5.2.2"
     }
 }

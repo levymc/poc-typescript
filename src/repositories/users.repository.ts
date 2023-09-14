@@ -10,7 +10,7 @@ export default class UsersRepository {
         this.prisma = new PrismaClient();
     }
 
-    async create(name: string, email: string): Promise<object> {
+    async create(name: string, email: string) {
         try {
             const response = await this.prisma.users.create({
                 data: {
@@ -39,7 +39,7 @@ export default class UsersRepository {
         }
     }
 
-    async getUserById(id: number): Promise<any> {
+    async getUserById(id: number) {
         try {
             const user = await this.prisma.users.findUnique({
                 where: {

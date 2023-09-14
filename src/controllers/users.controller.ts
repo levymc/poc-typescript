@@ -8,7 +8,7 @@ export default class UsersController {
         req: Request,
         res: Response,
         next: NextFunction,
-    ): Promise<void> {
+    ) {
         const service = new UsersService()
         logger.info('UsersController.handlePost START');
         try {
