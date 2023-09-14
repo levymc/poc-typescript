@@ -2,6 +2,7 @@ import logger from '../config/logger';
 import { Request, Response, NextFunction } from 'express';
 import UsersService from '../services/users.service';
 import AppError from '../errors/AppError';
+import isNumeric from '../util/isNumeric';
 
 export default class UsersController {
     async handlePost(
@@ -49,6 +50,26 @@ export default class UsersController {
             const updatedUser = await service.handlePutUserByName(req.params.search, req.body.name, req.body.email);
             logger.info('UsersController.handlePutByName END');
             res.status(201).json(updatedUser);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async handleDelete(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ){
+        const service = new UsersService()
+        logger.info('UsersController.handleDelete START');
+        try {
+            const id = req.query.id  &&  req.query.id as string ;
+            if (!id) throw new AppError('Nenhum id foi passado', 'deleteUser Error', 400 )
+            if (!isNumeric(id)) throw new AppError('O parâmetro id deve numérico', 'deleteUser Error', 400);
+            const userId = parseInt(id, 10);
+            await service.handleDelete(userId);
+            logger.info('UsersController.handleDelete END');
+            res.status(200).json({msg: `O usuário de id ${userId} foi removido`});
         } catch (err) {
             next(err);
         }

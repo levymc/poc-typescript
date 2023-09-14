@@ -26,4 +26,11 @@ export default class UsersService {
         logger.info({msg: 'UsersService.handlePutUser END', responseDB});
         return responseDB;
     }
+
+    async handleDelete(id: number) {
+        const usersRepository = new UsersRepository()
+        logger.info({msg: 'UsersService.handleDelete START'});
+        await usersRepository.delete(id);
+        logger.info({msg: 'UsersService.handleDelete END'});
+    }
 }

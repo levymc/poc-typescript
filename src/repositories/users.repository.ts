@@ -80,7 +80,7 @@ export default class UsersRepository {
     }
     
 
-    async update(id: number, name: string, email: string): Promise<void> {
+    async update(id: number, name: string, email: string) {
         try {
             await this.prisma.users.update({
                 where: {
@@ -96,7 +96,7 @@ export default class UsersRepository {
         }
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: number) {
         try {
             await this.prisma.users.delete({
                 where: {
@@ -104,6 +104,7 @@ export default class UsersRepository {
                 },
             });
         } catch (error) {
+            if (error.code == "P2025") throw new AppError("Este id já foi deletado", 'Error deleting user', 404);
             throw new AppError(error, 'Error deleting user', 500);
         }
     }
