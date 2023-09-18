@@ -103,7 +103,7 @@ export default class UsersRepository {
                     id,
                 },
             });
-        } catch (error) {
+        } catch (error: any) {
             if (error.code == "P2025") throw new AppError("Este id já foi deletado", 'Error deleting user', 404);
             throw new AppError(error, 'Error deleting user', 500);
         }

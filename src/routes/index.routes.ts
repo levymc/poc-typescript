@@ -6,6 +6,7 @@ import usersRouter from './users.routes';
 const router = Router();
 
 router.use(entriesRouter)
-router.use(usersRouter)
+    .get('/health', (_req, res) => res.send('OK'))
+    .use(usersRouter)
 
 export default router;
