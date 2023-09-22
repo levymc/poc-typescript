@@ -26,15 +26,12 @@ export default class UsersRepository {
         }
     }
 
-    async getUsers(): Promise<{
-        id: number;
-        name: string;
-        email: string;
-    }[]> {
+    async getUsers(){
         try {
             const usersList = await this.prisma.users.findMany()
             return usersList;
         } catch (error) {
+            console.error(error)
             throw new AppError(error, 'Error retrieving user', 500);
         }
     }
