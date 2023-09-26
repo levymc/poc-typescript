@@ -31,7 +31,7 @@ export default class UsersController {
         try {
             const usersList = await service.handleGetUsers();
             logger.info('UsersController.handleGet END');
-            res.status(201).json(usersList);
+            res.status(200).json(usersList);
         } catch (err) {
             next(err);
         }

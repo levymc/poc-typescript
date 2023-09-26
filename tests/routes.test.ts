@@ -13,6 +13,14 @@ describe("api testing", () => {
 
     it("get /users", async () => {
         const result = await server.get('/users');
-        expect(Array.isArray(result.body)).toBe(true);
+        expect(result.status).toBe(200);
+    });
+
+    it("post /users", async () => {
+        const result = await server
+            .post('/users')
+            .send({name: "TestJest", email: "Jest@test.com"})
+            .set('Accept', 'application/json');
+        expect(result.status).toBe(201);
     });
 });
