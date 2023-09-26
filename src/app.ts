@@ -13,11 +13,4 @@ app.use(json());
 app.use(router);
 app.use(MyException);
 
-const PORT = process.env.PORT ?? 5000;
-
-app.listen(PORT, () => {
-    console.log(`
-    POC API na porta ${PORT},
-    Url: http://localhost:${PORT} 
-`);
-});
+export default app

@@ -31,7 +31,7 @@ export default class UsersController {
         try {
             const usersList = await service.handleGetUsers();
             logger.info('UsersController.handleGet END');
-            res.status(201).json(usersList);
+            res.status(200).json(usersList);
         } catch (err) {
             next(err);
         }
@@ -49,7 +49,7 @@ export default class UsersController {
             if (String(req.query.search).length < 3) throw new AppError('O nome passado deve possuir 3 ou mais caracteres', 'ErrorName', 404 )
             const updatedUser = await service.handlePutUserByName(req.params.search, req.body.name, req.body.email);
             logger.info('UsersController.handlePutByName END');
-            res.status(201).json(updatedUser);
+            res.status(200).json(updatedUser);
         } catch (err) {
             next(err);
         }
@@ -69,7 +69,7 @@ export default class UsersController {
             const userId = parseInt(id, 10);
             await service.handleDelete(userId);
             logger.info('UsersController.handleDelete END');
-            res.status(200).json({msg: `O usuário de id ${userId} foi removido`});
+            res.status(204).json({msg: `O usuário de id ${userId} foi removido`});
         } catch (err) {
             next(err);
         }
