@@ -7,11 +7,11 @@
         "format": "prettier --write .",
         "migration:run": "prisma migrate deploy",
         "migration:generate": "npm run dev:load-envs prisma migrate dev",
-        "devLog": "ts-node-dev --respawn --transpile-only ./src/app.ts > ./logs/logs.json",
         "dev:load-envs": "dotenv -e .env.development",
         "dev:migration:run": "npm run dev:load-envs prisma migrate deploy",
         "dev:migration:generate": "npm run dev:load-envs prisma migrate dev",
         "dev": "cross-env NODE_ENV=development nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register ./src/app.ts' -e ts",
+        "devLog": "cross-env NODE_ENV=development nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register ./src/app.ts' -e ts > logs/logs.json",
         "build": "tsc"
     },
     "keywords": [],
