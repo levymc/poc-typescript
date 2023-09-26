@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, entries } from '@prisma/client';
 import AppError from '../errors/AppError';
 
 export default class EntriesRepository {
@@ -14,9 +14,9 @@ export default class EntriesRepository {
         amount: number,
         date: Date,
         userId: number,
-    ): Promise<void> {
+    ): Promise<entries> {
         try {
-            await this.prisma.entries.create({
+            const createdEntry = await this.prisma.entries.create({
                 data: {
                     description,
                     amount,
@@ -28,6 +28,7 @@ export default class EntriesRepository {
                     },
                 },
             });
+            return createdEntry;
         } catch (error) {
             throw new AppError(error, 'Error creating entry', 500);
         }
