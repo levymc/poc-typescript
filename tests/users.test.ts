@@ -24,7 +24,7 @@ describe("Users routes testing", () => {
         const res = await checkUser("Jest2@test.com")
         if (res) await createFakeUser(9995, 'JestsUpdate', "Jes81818181@test.com")
         const result = await server
-            .put('/users?search=Jest')
+            .put('/users?search=JestsUpdate')
             .send({name: "UpdatedJests", email: "Jest2@test.com"})
             .set('Accept', 'application/json');
         expect(result.status).toBe(200);
