@@ -69,7 +69,7 @@ export default class UsersController {
             const userId = parseInt(id, 10);
             await service.handleDelete(userId);
             logger.info('UsersController.handleDelete END');
-            res.status(200).json({msg: `O usuário de id ${userId} foi removido`});
+            res.status(204).json({msg: `O usuário de id ${userId} foi removido`});
         } catch (err) {
             next(err);
         }

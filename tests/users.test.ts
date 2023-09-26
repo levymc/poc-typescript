@@ -5,13 +5,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient()
 const server = request(app);
 
-describe("api testing", () => {
-    it("/health", async () => {
-        const result = await server.get('/health');
-        const { statusCode } = result;
-        expect(statusCode).toBe(200);
-    });
-
+describe("Users routes testing", () => {
     it("get /users", async () => {
         const result = await server.get('/users');
         expect(result.status).toBe(200);
@@ -25,6 +19,15 @@ describe("api testing", () => {
             .set('Accept', 'application/json');
         expect(result.status).toBe(201);
     });
+
+    it("delete /users", async () => {
+        await createFakeUser()
+        const result = await server
+            .delete(`/users?id=9999`)
+            .set('Accept', 'application/json');
+
+        expect(result.status).toBe(204);
+    });
 });
 
 async function checkUser (){
@@ -34,4 +37,14 @@ async function checkUser (){
     if(checkUser) await prisma.users.delete({
             where: { id: checkUser.id }
     });
+}
+
+async function createFakeUser (){
+    const fakeUser = await prisma.users.create({
+        data: {
+            id: 9999,
+            name: "fakerUser",
+            email: "fakeUser@jests.com",
+        }
+    })
 }
