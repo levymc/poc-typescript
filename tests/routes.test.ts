@@ -1,7 +1,8 @@
 import request from 'supertest';
 import app from '../src/app';
-import { users } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
+const prisma = new PrismaClient()
 const server = request(app);
 
 describe("api testing", () => {
@@ -17,6 +18,7 @@ describe("api testing", () => {
     });
 
     it("post /users", async () => {
+        await checkUser();
         const result = await server
             .post('/users')
             .send({name: "TestJest", email: "Jest@test.com"})
@@ -24,3 +26,12 @@ describe("api testing", () => {
         expect(result.status).toBe(201);
     });
 });
+
+async function checkUser (){
+    const checkUser = await prisma.users.findUnique({
+        where: { email: 'Jest@test.com' }
+    });
+    if(checkUser) await prisma.users.delete({
+            where: { id: checkUser.id }
+    });
+}
