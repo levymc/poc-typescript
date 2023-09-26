@@ -49,7 +49,7 @@ export default class UsersController {
             if (String(req.query.search).length < 3) throw new AppError('O nome passado deve possuir 3 ou mais caracteres', 'ErrorName', 404 )
             const updatedUser = await service.handlePutUserByName(req.params.search, req.body.name, req.body.email);
             logger.info('UsersController.handlePutByName END');
-            res.status(201).json(updatedUser);
+            res.status(200).json(updatedUser);
         } catch (err) {
             next(err);
         }
