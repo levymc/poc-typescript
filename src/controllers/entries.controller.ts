@@ -3,6 +3,7 @@ import logger from '../config/logger.ts';
 import { type Request, type Response, type NextFunction } from 'express';
 import EntriesService from '../services/entries.service.ts';
 import { entries } from '@prisma/client';
+import { prismaDisconnect } from '../database/PrismaConnection.ts';
 
 export default class EntriesController {
     async handlePost(
@@ -20,6 +21,7 @@ export default class EntriesController {
                             req.body.userId
                             );
             res.status(201).json(createdEntry);
+            await prismaDisconnect;
             logger.info('EntriesController.handlePost END');
         } catch (err) {
             next(err);

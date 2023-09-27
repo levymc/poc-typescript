@@ -1,6 +1,7 @@
 // import AppError from '../errors/AppError.ts'
 import logger from '../config/logger.ts';
 import { type Request, type Response, type NextFunction } from 'express';
+import { prismaDisconnect } from '../database/PrismaConnection.ts';
 
 export default class ExpensesController {
     async handlePost(
@@ -12,6 +13,7 @@ export default class ExpensesController {
         try {
             // Coloque o código desejado aqui
             logger.info('ExpensesController.handlePost END');
+            await prismaDisconnect;
         } catch (err) {
             next(err);
         }

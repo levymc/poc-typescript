@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-throw-literal */
 import { PrismaClient } from '@prisma/client';
 import AppError from '../errors/AppError';
+import { prismaConnection } from '../database/PrismaConnection';
 
 export default class ExpensesRepository {
     private readonly prisma: PrismaClient;
 
     constructor() {
-        this.prisma = new PrismaClient();
+        this.prisma = prismaConnection;
     }
 
     async create(

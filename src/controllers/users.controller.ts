@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import UsersService from '../services/users.service';
 import AppError from '../errors/AppError';
 import isNumeric from '../util/isNumeric';
+import { prismaDisconnect } from '../database/PrismaConnection';
 
 export default class UsersController {
     async handlePost(
@@ -15,8 +16,10 @@ export default class UsersController {
         try {
             const userInfo = await service.handlePostUser(req.body.name, req.body.email);
             logger.info('UsersController.handlePost END');
+            await prismaDisconnect;
             res.status(201).json({succes: true, msg: `O usuário ${userInfo.name}, de id ${userInfo.id} foi criado`});
         } catch (err) {
+            await prismaDisconnect;
             next(err);
         }
     }
@@ -31,8 +34,10 @@ export default class UsersController {
         try {
             const usersList = await service.handleGetUsers();
             logger.info('UsersController.handleGet END');
+            await prismaDisconnect;
             res.status(200).json(usersList);
         } catch (err) {
+            await prismaDisconnect;
             next(err);
         }
     }
@@ -49,8 +54,10 @@ export default class UsersController {
             if (String(req.query.search).length < 3) throw new AppError('O nome passado deve possuir 3 ou mais caracteres', 'ErrorName', 404 )
             const updatedUser = await service.handlePutUserByName(req.params.search, req.body.name, req.body.email);
             logger.info('UsersController.handlePutByName END');
+            await prismaDisconnect;
             res.status(200).json(updatedUser);
         } catch (err) {
+            await prismaDisconnect;
             next(err);
         }
     }
@@ -69,8 +76,10 @@ export default class UsersController {
             const userId = parseInt(id, 10);
             await service.handleDelete(userId);
             logger.info('UsersController.handleDelete END');
+            await prismaDisconnect;
             res.status(204).json({msg: `O usuário de id ${userId} foi removido`});
         } catch (err) {
+            await prismaDisconnect;
             next(err);
         }
     }

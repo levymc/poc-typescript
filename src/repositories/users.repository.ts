@@ -2,12 +2,13 @@
 import { PrismaClient } from '@prisma/client';
 import AppError from '../errors/AppError';
 import httpStatus from 'http-status'
+import { prismaConnection } from '../database/PrismaConnection';
 
 export default class UsersRepository {
     private readonly prisma: PrismaClient;
 
     constructor() {
-        this.prisma = new PrismaClient();
+        this.prisma = prismaConnection;
     }
 
     async create(name: string, email: string) {
