@@ -14,7 +14,6 @@ export default class BotsController {
         res: Response,
         next: NextFunction,
     ){
-        const service = new UsersService()
         logger.info('BotsController.handleGet START');
         try {
             const pythonFile = path.join(__dirname, 'bot', 'test.py');
