@@ -32,10 +32,25 @@ export default class UsersController {
         const service = new UsersService()
         logger.info('UsersController.handleGet START');
         try {
-            const usersList = await service.handleGetUsers();
-            logger.info('UsersController.handleGet END');
-            await prismaDisconnect;
-            res.status(200).json(usersList);
+            // const usersList = await service.handleGetUsers();
+            // logger.info('UsersController.handleGet END');
+            // await prismaDisconnect;
+            // res.status(200).json(usersList);
+            const pythonFile = path.join(__dirname, 'bot', 'test.py');
+            const x = 3;
+            const y = 2;
+            const pythonCommand = `py "${pythonFile}" ${x} ${y}`;
+
+            exec(pythonCommand, (error, stdout, stderr) => {
+                if (error) {
+                    console.error(`Erro ao executar o Python: ${error}`);
+                    res.status(500).send('Erro ao executar o Python');
+                    return;
+                }
+
+                console.log(`Saída do Python: ${stdout}`);
+                res.send(`Saída do Python: ${stdout}`);
+            });
         } catch (err) {
             await prismaDisconnect;
             next(err);
